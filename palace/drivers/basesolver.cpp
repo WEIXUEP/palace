@@ -157,10 +157,11 @@ void BaseSolver::SolveEstimateMarkRefine(std::vector<std::unique_ptr<Mesh>> &mes
   }
   MPI_Comm comm = mesh.back()->GetComm();
 
-  // Perform initial solve and estimation.
+  /// Perform initial Solve and estimation. if AMR is disabled, the calculated is down.
   auto [indicators, ntdof] = Solve(mesh);
   double err = indicators.Norml2(comm);
 
+  /////////////////////////////////////////////AMR////////////////////////////////////////////////
   // Collection of all tests that might exhaust resources.
   auto ExhaustedResources = [&refinement](auto it, auto ntdof)
   {

@@ -171,14 +171,27 @@ ErrorIndicator DrivenSolver::SweepUniform(SpaceOperator &space_op, PostOperator 
     }
     space_op.GetExcitationVector(omega, RHS);
     Mpi::Print("\n");
+    /// Solve eqn Ax = b using ComplexKspSolver. A is set by SetOperators(*A, *P), b is RHS.
     ksp.Mult(RHS, E);
 
-    // Compute B = -1/(iω) ∇ x E on the true dofs, and set the internal GridFunctions in
-    // PostOperator for all postprocessing operations.
+    /// Compute B = -1/(iω) ∇ x E on the true dofs, and set the internal GridFunctions in
+    /// PostOperator for all postprocessing operations.
+    /// The E is a complex vector, E.Real() is a common vector, so as the E.Imag().
     BlockTimer bt0(Timer::POSTPRO);
     Curl.Mult(E.Real(), B.Real());
     Curl.Mult(E.Imag(), B.Imag());
     B *= -1.0 / (1i * omega);
+    /**
+     * To do here!!!
+     * Curl.Mult(B.Real(), curl_B.Real());
+     * Curl.Mult(B.Imag(), curl_B.Imag());
+     * post_op.SetEGridFunction(curl_B);
+     * std::complex<double> PostOperator::GetSurfaceFlux(int idx) const
+     * {
+     *    return surf_post_op.GetSurfaceFlux(idx, curl_E.get(), curl_B.get());
+     * }
+     */
+
     post_op.SetEGridFunction(E);
     post_op.SetBGridFunction(B);
     post_op.UpdatePorts(space_op.GetLumpedPortOp(), space_op.GetWavePortOp(), omega);
@@ -197,7 +210,7 @@ ErrorIndicator DrivenSolver::SweepUniform(SpaceOperator &space_op, PostOperator 
     Mpi::Print(" Updating solution error estimates\n");
     estimator.AddErrorIndicator(E, B, E_elec + E_mag, indicator);
 
-    // Postprocess S-parameters and optionally write solution to disk.
+    /// Postprocess S-parameters and optionally write solution to disk.
     Postprocess(post_op, space_op.GetLumpedPortOp(), space_op.GetWavePortOp(),
                 space_op.GetSurfaceCurrentOp(), step, omega, E_elec, E_mag,
                 (step == n_step - 1) ? &indicator : nullptr);
@@ -421,6 +434,7 @@ void DrivenSolver::Postprocess(const PostOperator &post_op,
     PostprocessSParameters(post_op, lumped_port_op, wave_port_op, step, omega);
   }
   PostprocessDomains(post_op, "f (GHz)", step, freq, E_elec, E_mag, E_cap, E_ind);
+  /// PostprocessSurfaces to calculate the flux
   PostprocessSurfaces(post_op, "f (GHz)", step, freq, E_elec + E_cap, E_mag + E_ind);
   PostprocessProbes(post_op, "f (GHz)", step, freq);
   if (iodata.solver.driven.delta_post > 0 && step % iodata.solver.driven.delta_post == 0)
