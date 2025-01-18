@@ -194,6 +194,7 @@ static void PrintPalaceInfo(MPI_Comm comm, int np, int nt, int ngpu, mfem::Devic
   Mpi::Barrier(comm);
 }
 
+// WXP MAIN
 int main(int argc, char *argv[])
 {
   // Initialize MPI.
