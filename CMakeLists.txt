@@ -188,11 +188,11 @@ if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
 endif()
 
-# Add other third-party dependency builds
-include(ExternalGitTags)
-if(PALACE_BUILD_EXTERNAL_DEPS)
-  add_subdirectory("extern")
-endif()
+# # Add other third-party dependency builds
+# include(ExternalGitTags)
+# if(PALACE_BUILD_EXTERNAL_DEPS)
+#   add_subdirectory("extern")
+# endif()
 
 # Add GSLIB (always built as part of Palace)
 if(PALACE_WITH_GSLIB)
@@ -200,17 +200,17 @@ if(PALACE_WITH_GSLIB)
   include(ExternalGSLIB)
 endif()
 
-# Add libCEED (always built as part of Palace)
-message(STATUS "==================== Configuring libCEED dependency ====================")
-include(ExternalLibCEED)
+# # Add libCEED (always built as part of Palace)
+# message(STATUS "==================== Configuring libCEED dependency ====================")
+# include(ExternalLibCEED)
 
-# Add MFEM (always built as part of Palace)
-message(STATUS "====================== Configuring MFEM dependency =====================")
-include(ExternalMFEM)
+# # Add MFEM (always built as part of Palace)
+# message(STATUS "====================== Configuring MFEM dependency =====================")
+# include(ExternalMFEM)
 
-# Add the main Palace project
-message(STATUS "========================== Configuring Palace ==========================")
-include(ExternalPalace)
+# # Add the main Palace project
+# message(STATUS "========================== Configuring Palace ==========================")
+# include(ExternalPalace)
 
-# Finished with superbuild configuration
-message(STATUS "======================= Configure stage complete =======================")
+# # Finished with superbuild configuration
+# message(STATUS "======================= Configure stage complete =======================")

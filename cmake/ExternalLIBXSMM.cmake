@@ -42,7 +42,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 endif()
 
 string(REPLACE ";" "; " LIBXSMM_OPTIONS_PRINT "${LIBXSMM_OPTIONS}")
-message(STATUS "LIBXSMM_OPTIONS: ${LIBXSMM_OPTIONS_PRINT}")
+message(STATUS "LIBXSMM_OPTIONS: ${LIBXSMM_OPTIONS}")
 
 # Don't use LIBXSMM install step, since it just copies shared libraries and doesn't modify
 # the dependency locations directly (doesn't use RPATH). Just build directly into the
