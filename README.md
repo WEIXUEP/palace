@@ -33,3 +33,4 @@ cmake -G "MinGW Makefiles" ..
 make
 ```
 
+The libgs.a file is in build\lib\libgs.a
