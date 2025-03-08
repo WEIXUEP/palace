@@ -1,0 +1,18 @@
+--- Makefile	2025-02-16 20:37:10.693819300 +0800
++++ Makefile2	2025-02-16 20:59:27.329129500 +0800
+@@ -23,8 +23,13 @@
+ INCDIR = $(SRCROOT)/src
+ LIBDIR = $(SRCROOT)/lib
+ 
+-DARWIN := $(filter Darwin,$(shell uname -s))
+-SO_EXT := $(if $(DARWIN),dylib,so)
++ifeq ($(shell uname -s),Darwin)
++    DARWIN := 1
++endif
++ifeq ($(OS),Windows_NT)
++    WINDOWS := 1
++endif
++SO_EXT := $(if $(DARWIN),dylib,$(if $(WINDOWS),dll,so))
+ 
+ ifneq (,$(strip $(DESTDIR)))
+   INSTALL_ROOT = $(DESTDIR)

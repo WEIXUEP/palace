@@ -1,0 +1,14 @@
+--- ceed.c	2025-02-16 22:35:11.900489600 +0800
++++ ceed2.c	2025-02-16 22:35:06.110016000 +0800
+@@ -230,7 +230,10 @@
+   va_end(args);
+ }
+ // LCOV_EXCL_STOP
+-
++#ifdef _WIN32
++// #define posix_memalign(p, a, s) (((*(p)) = _aligned_malloc((s), (a))), *(p) ?0 :errno)
++#define posix_memalign(p, a, s) (((*(p)) = malloc((s))), *(p) ?0 :errno)
++#endif
+ /**
+   @brief Allocate an array on the host; use @ref CeedMalloc().
+ 

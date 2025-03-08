@@ -79,9 +79,6 @@ list(APPEND GSLIB_OPTIONS
 string(REPLACE ";" "; " GSLIB_OPTIONS_PRINT "${GSLIB_OPTIONS}")
 message(STATUS "GSLIB_OPTIONS: ${GSLIB_OPTIONS_PRINT}")
 
-set(GSLIB_PATCH_FILES
-"${CMAKE_SOURCE_DIR}/extern/win_patch/gslib/gslib_build.patch"
-)
 
 
 include(ExternalProject)
@@ -94,7 +91,6 @@ ExternalProject_Add(gslib
   PREFIX            ${CMAKE_BINARY_DIR}/extern/gslib-cmake
   BUILD_IN_SOURCE   TRUE
   UPDATE_COMMAND    ""
-  PATCH_COMMAND     patch ${CMAKE_SOURCE_DIR}/build/extern/gslib/Makefile < "${GSLIB_PATCH_FILES}"
   CONFIGURE_COMMAND ""
   BUILD_COMMAND     ""
   INSTALL_COMMAND   ${CMAKE_MAKE_PROGRAM} ${GSLIB_OPTIONS} install
