@@ -49,7 +49,11 @@ static const char *GetPalaceCeedJitSourceDir()
 #endif
   return path;
 }
-
+/**
+ * @brief Configure OpenMP settings based on the OMP_NUM_THREADS environment variable.
+ * If the variable is not set, it defaults to 1 thread.
+ * @return int 
+ */
 static int ConfigureOmp()
 {
 #if defined(MFEM_USE_OPENMP)
