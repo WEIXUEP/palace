@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Initialize the project
-project(palace LANGUAGES CXX VERSION 0.13.0)
+project(palace LANGUAGES CXX VERSION 0.14.0)
 
 # Define build settings and defaults
 set(PALACE_WITH_OPENMP OFF CACHE BOOL "Use OpenMP for shared-memory parallelism")
@@ -216,6 +216,10 @@ set_target_properties(${LIB_TARGET_NAME}
 )
 
 # Handle device source code
+#
+# TARGET_SOURCES_DEVICE defines a list of files that contain device code.
+# We manually specify this list because we cannot use compilers like nvcc for
+# everything, since they tend to be slower and do not support everything we need.
 if(NOT "${TARGET_SOURCES_DEVICE}" STREQUAL "" AND (PALACE_WITH_CUDA OR PALACE_WITH_HIP))
   if(PALACE_WITH_CUDA)
     set(LANGUAGE_PROPERTY CUDA)
